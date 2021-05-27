@@ -1,0 +1,12 @@
+---
+- hosts: "localhost"
+  tasks:
+  - name: "Create user account"
+    user:
+      name: "user1"
+      groups: "user1"
+    
+  - name: "Add authorized key"
+    authorized_key:
+      user: "user1"
+      key: "user1_id_rsa.pub"
