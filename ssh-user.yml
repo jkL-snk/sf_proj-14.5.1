@@ -1,10 +1,11 @@
 ---
 - hosts: "localhost"
+  become: true
   tasks:
   - name: "Create user account"
     user:
       name: "user1"
-      groups: "user1"
+      state: present
     
   - name: "Add authorized key"
     authorized_key:
