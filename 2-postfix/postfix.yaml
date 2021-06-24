@@ -1,0 +1,46 @@
+---
+- hosts: "localhost"
+  become: true
+  tasks:
+    - name: ensure postfix packages are installed
+      apt:
+        pkg: "{{ packages }}"
+        state: latest
+        update_cache: yes
+        cache_valid_time: 600
+      vars:
+        packages:
+          - postfix
+      tags:
+        - install
+
+    - name: ensure postfix packages are uninstalled
+      apt:
+        pkg: "{{ packages }}"
+        state: absent
+        update_cache: yes
+        cache_valid_time: 600
+      vars:
+        packages:
+          - postfix
+      tags:
+        - uninstall
+
+    - name: ensure all postfix services are started and enabled
+      service:
+        name: "{{ item }}"
+        state: started
+        enabled: yes
+      with_items:
+        - postfix
+      tags: install
+    
+    - name: ensure all postfix services are absent and disabled
+      service:
+        name: "{{ item }}"
+        state: stopped
+      with_items:
+        - postfix
+      tags: uninstall
+
+
