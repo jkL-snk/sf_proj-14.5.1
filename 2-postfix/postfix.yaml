@@ -11,8 +11,7 @@
       vars:
         packages:
           - postfix
-      tags:
-        - install
+      tags: init postfix
 
     - name: ensure postfix packages are uninstalled
       apt:
@@ -23,8 +22,7 @@
       vars:
         packages:
           - postfix
-      tags:
-        - uninstall
+      tags: drop postfix
 
     - name: ensure all postfix services are started and enabled
       service:
@@ -33,7 +31,7 @@
         enabled: yes
       with_items:
         - postfix
-      tags: install
+      tags: init postfix
     
     - name: ensure all postfix services are absent and disabled
       service:
@@ -41,6 +39,6 @@
         state: stopped
       with_items:
         - postfix
-      tags: uninstall
+      tags: drop postfix
 
 
