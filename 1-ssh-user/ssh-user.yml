@@ -1,0 +1,25 @@
+---
+- hosts: "localhost"
+  become: true
+  tasks:
+  - name: "Create user account"
+    user:
+      name: "user1"
+      state: present
+  
+  - name: import secret variable file
+    include_vars: "public-key.yml"
+    no_log: true
+
+  - name: ensure .ssh dir exists
+    file: path=/home/user1/.ssh/ state=directory
+
+  - name: create public key
+    copy:
+      content: "{{public_key_content}}"
+      dest: "/home/user1/.ssh/id_rsa.pub"
+      owner: user1
+      group: user1
+      mode: 0600
+    debugger: on_failed
+    no_log: true
